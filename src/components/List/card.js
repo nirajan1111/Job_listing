@@ -2,7 +2,7 @@ import React from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import en from "dayjs/locale/en";
-
+import { v4 as uuidv4 } from "uuid";
 const Card = (props) => {
     dayjs.extend(relativeTime);
     dayjs.locale(en);
@@ -16,15 +16,16 @@ const Card = (props) => {
             <div className="innercardcontainer">
                 <div className="firstcontent">
                     <div className="company_name">{props.job.company}</div>
-                    <div className="new">NEW</div>
-                    <div className="featured">FEATURED</div>
+
+                    {(new Date().getTime() - props.job.posted_on < 4 * (86400000)) && <div className='new'>NEW!</div>}
+                    {(new Date().getTime() - props.job.posted_on < 2 * (86400000)) && <div className='featured'>FEATURED</div>}
                 </div>
                 <div className="second_content">
                     <div className="post">{props.job.position}</div>
                     <div className="techstack">
-                        {props.job.keywords?.map((keyword, index) => (
-                            <button className="keyword">
-                                <div key={index} onClick={props.addKeyword}>
+                        {props.job.keywords?.map((keyword) => (
+                            <button key={uuidv4()} className="keyword">
+                                <div onClick={props.addKeyword}>
                                     {keyword}
                                 </div>
                             </button>

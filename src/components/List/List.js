@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Card from "./card";
 import "./style.css";
+import { v4 as uuidv4 } from "uuid";
 
 const List = () => {
     const [jobs, setJobs] = useState([]);
     const [keywords, setKeywords] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [searchBarStatus, setSearchBarStatus] = useState(false);
 
     const addKeyword = (e) => {
         const keyword = e.target.textContent;
@@ -57,7 +57,7 @@ const List = () => {
                         <div className="searchbar">
 
                             {keywords.map((keyword, index) => (
-                                <div key={index} className="keyword">
+                                <div key={uuidv4() + index} className="keyword">
                                     {keyword}
 
                                     <button id="Xbutton" onClick={() => removeKeyword(keyword)}>x</button>
@@ -67,11 +67,12 @@ const List = () => {
                                 <div onClick={clearallkeywords} className="clear">clear</div>}
                         </div>
                     )}
-
-                    {jobs.map((job) =>
+                    {console.log(uuidv4())}
+                    {jobs.map((job, index) =>
                         (filteringjobs(job.keywords) || keywords.length === 0) ? (
+
                             <Card
-                                key={job.posted_on} // Using  job.posted_on as the unique key
+                                key={uuidv4() + index}
                                 job={job}
                                 keywords={keywords}
                                 addKeyword={addKeyword}
